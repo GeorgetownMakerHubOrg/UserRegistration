@@ -1,5 +1,6 @@
 var userTable = SpreadsheetApp
-        .openById(getUserTableId());
+        .openById(getUserTableId()); // functions like getUserTableId() are in a file called secrets.gs, which is not in the repo.
+
 
 
 var MeritBadges = [
