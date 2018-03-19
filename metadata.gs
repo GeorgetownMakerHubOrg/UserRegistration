@@ -26,7 +26,7 @@ function getMeritBadges(){
 
 var checklistItems = [
 'Signed Safety Waiver',
-'Recieved Safety Orientation'
+'Received Safety Orientation'
 ];
 function getChecklistItems(){
   return checklistItems; 

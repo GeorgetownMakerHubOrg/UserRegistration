@@ -57,10 +57,16 @@
 
 <div id="fullpage" >
 	<div class="section" id="welcomeScreen">
-		<h1>Maker Hub<BR/>User Registration and <BR/>Info Changing System</h1>
-		<p>Enter your NetId:</p>
+<!--    <h2 class="gethelp">This System is for STAFF USE ONLY! <BR>Get a Friendly Staff Person To Help You :)</h2>-->
+		<h1 class="gethelp">Maker Hub User Registration: Now on the<Br/>
+        Maker Hub Staff Mobile App!
+        </h1>
+        <h2 class="gethelp">Get a Friendly Staff Person to help you get registerered</h2>
+<!--
+<p>Enter your NetId:</p>
 		<input class="inputtext required" type="text" name="netid" id="usernetid"/>
         <p>Then Press &lt;Enter&gt;</p>
+        -->
 	</div>
 
 	<div class="section" id="lookingScreen">
@@ -206,8 +212,9 @@ function loadWelcomeScreen(){
 
 function loadLoadingScreen(){
  // window.location.href = "#secondPage";
-$.fn.fullpage.moveTo('secondPage', 0);  
-    
+  $.fn.fullpage.moveTo('secondPage', 0); 
+  console.log("loading");
+ 
   google.script.run.withSuccessHandler(function(data){
     console.log(data);
     if(data){
@@ -481,6 +488,8 @@ function storeMeritBadgeDataAndContinue(){
 
 
 function loadSwipeScreen(){
+
+  var foundAndProcessing = false;
 console.log("loading swipescreen");
 //  window.location.href = "#4thPage";
   $.fn.fullpage.moveTo('4thPage', 0);  
@@ -522,7 +531,7 @@ console.log("loading swipescreen");
           }).updateUserData(currentUser.netid, currentUser);        
         }       
      }
-     if (event.key == "%" /*53*/) { //when % is pressed, start recording and move to second page
+     if (!foundAndProcessing && (event.key == "%"  || event.key == "+" /*53*/)) { //when % is pressed, start recording and move to second page
 		recording = true;
         //placeImageAt("swipe.png", "#swipeimg");
         //placeImageAt("loading.gif", "#swipeimg");
@@ -531,9 +540,12 @@ console.log("loading swipescreen");
         // some sort of alart to show we got it....
 //		window.location.href = "#secondPage/0";
       } else if (recording && event.key == "?" /*191*/){ //when ? is pressed, stop recording, update card, reset
+        foundAndProcessing = true;
         var swipe = payload;
         payload = "";
-		recording = false;        
+		recording = false;
+console.log(swipe);
+console.log($.md5(swipe));
         currentUser.swipemd5 = $.md5(swipe);        
         if(currentUser.newUser){
           delete  currentUser.newUser;
@@ -553,7 +565,7 @@ console.log("loading swipescreen");
         }
         
 //        loadCongratsScreen;
-	} else if (recording){
+	} else if (!foundAndProcessing && recording){
 		payload += event.key; //add the keys that are pressed between "a" and "b"
 	} else{
       return false;

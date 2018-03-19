@@ -5,14 +5,14 @@ function getUserTableDataFromNetId(netId){
   .getValues();
 
   var userData = dataIntoHashRows(userTableData, 0, 1, function(row){
-    if(row["netid"].toString().trim() == netId.toString().trim()){
+    if(row["netid"].toString().toLowerCase().trim() == netId.toString().toLowerCase().trim()){
       return true;
     }
     return false;
   }); //, function(row){ return row['NetId'] == netId;}).data;
   
   if(userData.data.length > 0){
-    return userData.data[0];
+    return JSON.parse(JSON.stringify(userData.data[0]));
   }
   return false;
 }
